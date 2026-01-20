@@ -34,7 +34,30 @@ const MODEL_MAPPING = {
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ 
-    status: 'ok', 
+    status: 'ok',
+    // Root endpoint - redirect or provide info
+app.get('/', (req, res) => {
+  res.json({ 
+    service: 'OpenAI to NVIDIA NIM Proxy',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      models: '/v1/models',
+      chat: '/v1/chat/completions'
+    },
+    usage: 'Use /v1/chat/completions for OpenAI-compatible requests'
+  });
+});
+```
+
+However, the real issue is likely that **JanitorAI needs the correct configuration**. Here's what to do:
+
+## For JanitorAI Configuration:
+
+1. **API Type:** Select **"Reverse Proxy"** or **"OpenAI"**
+2. **API URL:** Enter ONLY the base URL without `/v1`:
+```
+   https://openai-nim-proxy-e10x.onrender.com
     service: 'OpenAI to NVIDIA NIM Proxy', 
     reasoning_display: SHOW_REASONING,
     thinking_mode: ENABLE_THINKING_MODE
